@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>🎙️ VoxScribe</h1>
+  <p>An AI-powered audio transcription platform built with <strong>Next.js</strong>, <strong>Better Auth</strong>, and <strong>Google Gemini API</strong>.</p>
 
-## Getting Started
+  <div>
+    <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js&style=for-the-badge" alt="Next.js" />
+    <img src="https://img.shields.io/badge/Better_Auth-Security-8B5CF6?style=for-the-badge" alt="Better Auth" />
+    <img src="https://img.shields.io/badge/PostgreSQL-Data-316192?logo=postgresql&style=for-the-badge" alt="PostgreSQL" />
+    <img src="https://img.shields.io/badge/Gemini_2.5-AI-F59E0B?logo=google&style=for-the-badge" alt="Google Gemini" />
+    <img src="https://img.shields.io/badge/Railway-Deploy-0B0D0E?logo=railway&style=for-the-badge" alt="Railway" />
+  </div>
+</div>
 
-First, run the development server:
+<br />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Overview
+
+**VoxScribe** is a full-stack web application designed to automatically transcribe short audio files using advanced AI. It provides a sleek, dark-themed, and secure dashboard where authorized administrators can upload audio and store transcripts directly in a PostgreSQL database. The application does not store the heavy audio files, ensuring an optimized and fast database.
+
+---
+
+## 🚀 Live Demo & Access
+
+- **Public URL**: [https://burzt-burzt.up.railway.app](https://burzt-burzt.up.railway.app)
+- **Admin Email**: `admin@test.com`
+- **Admin Password**: `admin@123`
+
+---
+
+## ✨ Features
+
+- **End-to-End Authentication**: Highly secure login and session management powered by Better Auth.
+- **AI Transcription Engine**: Fast and accurate audio-to-text generation via Google's Gemini 2.5 Flash API.
+- **Drag-and-Drop Uploader**: Seamless UX for uploading various audio formats (MP3, WAV, OGG, M4A, etc., max 20MB).
+- **Persistent Storage**: Transcripts are permanently stored in a PostgreSQL database while strictly discarding the heavy audio payloads.
+- **Glassmorphism UI**: A visually striking, responsive dark-mode interface built with Vanilla CSS variables and utility classes.
+- **Transcript Management**: Expandable cards, one-click text copying, and deletion controls.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category | Technology Used |
+| :--- | :--- |
+| **Framework** | Next.js 16 (App Router) |
+| **Authentication** | Better Auth (Email & Password) |
+| **Database** | PostgreSQL |
+| **Database Driver** | Raw `pg` Pool Connection |
+| **AI Integration** | `@google/generative-ai` (Gemini 2.5 Flash) |
+| **Styling** | Vanilla CSS (Dark Theme + Glassmorphism) |
+| **Deployment** | Railway (Containerized Next.js & Postgres) |
+
+---
+
+## 📂 Project Structure
+
+```text
+burzt/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── auth/[...all]/route.js   # Better Auth handler
+│   │   │   ├── transcribe/route.js      # Gemini API execution
+│   │   │   └── transcripts/route.js     # DB Operations (GET/DELETE)
+│   │   ├── dashboard/                   # Protected admin dashboard
+│   │   ├── layout.jsx                   # Root layout
+│   │   └── page.jsx                     # Login root page
+│   ├── components/
+│   │   ├── AudioUploader.jsx            # Drag & drop component
+│   │   ├── DashboardClient.jsx          # Client entry for dashboard
+│   │   └── TranscriptCard.jsx           # Individual transcript UI
+│   └── lib/
+│       ├── auth.js                      # Server-side auth config
+│       ├── auth-client.js               # Client-side auth config
+│       └── db.js                        # Database connection pool
+├── seed.js                              # Initial database + admin setup
+└── .env.example                         # Environment variable structure
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💻 Local Development Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If you wish to run this project locally, follow these steps:
 
-## Learn More
+### 1. Prerequisites
+- **Node.js** (v18+)
+- **PostgreSQL** instance running locally
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Clone and Install
+```bash
+git clone <your-github-repo-link>
+cd burzt
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Environment Variables
+Create a `.env.local` file in the root directory and populate it based on `.env.example`:
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/burzt
+BETTER_AUTH_SECRET=your_secret_string_here
+BETTER_AUTH_URL=http://localhost:3000
+GEMINI_API_KEY=your_gemini_api_key_here
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Database Setup & Seeding
+This project uses a dedicated seeding script to migrate auth tables, create the `transcript` table, and automatically provision the admin account.
+```bash
+# 1. Migrate auth tables
+npx @better-auth/cli migrate
 
-## Deploy on Vercel
+# 2. Seed tables and admin user
+npx tsx seed.js
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Start Development Server
+```bash
+npm run dev
+```
+Open `http://localhost:3000` to access the application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+<div align="center">
+  <i>Submitted as part of the Full-Stack Engineering Internship Assignment at Internshala.</i>
+</div>
