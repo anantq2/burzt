@@ -12,6 +12,7 @@ import { betterAuth } from "better-auth";
 const DATABASE_URL =
   process.env.DATABASE_URL ||
   "postgresql://postgres:akjha123@localhost:5432/burzt";
+const BETTER_AUTH_SECRET = process.env.BETTER_AUTH_SECRET;
 
 async function seed() {
   const pool = new Pool({ connectionString: DATABASE_URL });
@@ -43,6 +44,7 @@ async function seed() {
 
     const auth = betterAuth({
       database: pool,
+      secret: BETTER_AUTH_SECRET,
       emailAndPassword: { enabled: true },
     });
 
