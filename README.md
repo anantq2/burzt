@@ -121,6 +121,3 @@ Open `http://localhost:3000` to access the application.
 
 ---
 
-<div align="center">
-  <i>Submitted as part of the Full-Stack Engineering Internship Assignment at Internshala.</i>
-</div>
